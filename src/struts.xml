@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+    <!-- 设置浏览器是否缓存静态内容,默认值为true(生产环境下使用),开发阶段最好关闭 -->
+    <constant name="struts.serve.static.browserCache" value="false" />
+    <!-- 当struts的配置文件修改后,系统是否自动重新加载该文件,默认值为false(生产环境下使用),开发阶段最好打开 -->
+    <constant name="struts.configuration.xml.reload" value="true" />
+    <!-- 开发模式下使用,这样可以打印出更详细的错误信息 -->
+    <constant name="struts.devMode" value="true" />
+    <!-- 默认的视图主题 -->
+    <constant name="struts.ui.theme" value="simple" />
+    <!--<constant name="struts.objectFactory" value="spring" />-->
+    <!--解决乱码    -->
+    <constant name="struts.i18n.encoding" value="UTF-8" />
+    <!-- 指定允许上传的文件最大字节数。默认值是2097152(2M) -->
+    <constant name="struts.multipart.maxSize" value="5097152"/>
+	
+	<package name="demo" namespace="/" extends="struts-default">
+		<action name="test"	class="com.jxnu.action.HibernateActionTest">
+			<result>/MyJsp.jsp</result>
+		</action>
+		<action name="Login"	class="com.jxnu.action.LoginAction">
+			<result name="LoginSuccess">/Login_Success.html</result>
+			<result name="error">/404.html</result>
+			<result name="fail">/Permission_Denied.jsp</result>
+			<result name="AdminSuccess">/User_admin.jsp</result>
+		</action>
+		<action name="Logout" class="com.jxnu.action.LogoutAction">
+			<result type="redirect">/index.jsp</result>
+		</action>
+		<action name="RegisterAction" class="com.jxnu.action.RegisterAction">
+			<result type="redirect">/index.jsp</result>
+		</action>
+		<action name="BookFind" class="com.jxnu.action.BookFindAction">
+			<result>/Search_page.jsp</result>
+			<result name="emptly">/Search_page.jsp</result>	
+		</action>
+		<action name="ShowBookMain" class="com.jxnu.action.ShowBookMain">
+			<result >/BookInfo.jsp</result>
+			<result name="other">/Change_BookInfo.jsp</result>
+		</action>
+		<action name="ShowBookInfo" class="com.jxnu.action.ShowBookAdmin">
+			<result >/Change_BookInfo.jsp</result>	
+		</action>
+		<action name="AddComments" class="com.jxnu.action.AddCommentsAction" >
+			<result type="chain">ShowBookMain</result>
+		</action>
+		<action name="DeleteComments" class="com.jxnu.action.DeleteCommentsAction">
+			<result type="chain">ShowBookMain</result>
+		</action>
+		<action name="AddCollect" class="com.jxnu.action.AddCollectAction">
+			<result type="chain">ShowBookMain</result>
+			<result name="ERROR">/404.html</result>
+		</action>
+		<action name="DeleteCollect" class="com.jxnu.action.DeleteCollectAction">
+			<result name="BookInfo" type="chain">ShowBookMain</result>
+			<result name="User_shoucang" type="redirectAction">ShowCollect</result>
+			<result name="error">/404.html</result>
+		</action>
+		<action name="UserMain" class="com.jxnu.action.UserMainAction">
+			<result>/User_yonghu.jsp</result>
+			<result name="ERROR">/Please_Login.jsp</result>
+		</action>
+		<action name="ShowCollect" class="com.jxnu.action.ShowCollectAction">
+			<result >/User_shoucang.jsp</result>
+		</action>
+		<action name="ShowCollectRedirect" class="com.jxnu.action.ShowCollectRedirect">
+			<result type="redirectAction">ShowCollect</result>
+		</action>
+		<action name="ShowUserInfo" class="com.jxnu.action.ShowUserInfoAction">
+			<result>/User_ChangeInfo.jsp</result>
+		</action>
+		<action name="UpdateUserNameAndTel" class="com.jxnu.action.UpdateUserNameAndTelAction">
+			<result type="redirectAction">ShowUserInfo</result>
+		</action>
+		<action name="UpdateUserInfo" class="com.jxnu.action.UpdateUserInfoAction">
+			<result type="redirectAction">ShowUserInfo</result>
+		</action>
+		<action name="UpdateUserPassword" class="com.jxnu.action.UpdateUserPasswordAction">
+			<result type="redirectAction">ShowUserInfo</result>
+		</action>
+		<action name="UpdateUserImg" class="com.jxnu.action.UpdateUserImgAction" method="upload">
+			 <param name="savePath">/images/User_imgs</param>
+	       <result name="success" type="redirectAction">ShowUserInfo</result>
+		</action>
+		<action name="AddBooks" class="com.jxnu.action.AddBooksAction">
+			<result >/AddBookSuccessful.jsp</result>
+		</action>
+		<action name="UpdateBooks" class="com.jxnu.action.UpdateBooksAction">
+			<result type="chain">ShowBookInfo</result>
+			<result name="ERROR">/404.html</result>
+		</action>
+		<action name="UpdateBookInfo" class="com.jxnu.action.UpdateBookInfoAction">
+			<result type="chain">ShowBookInfo</result>
+		</action>
+		<action name="UpdateBookImg" class="com.jxnu.action.UpdateBookImgAction" method="upload">
+			 <param name="savePath">/images/Book_Main_imgs</param>
+	       <result name="success" type="chain">ShowBookInfo</result>
+		</action>
+		<action name="AddSystemMessage" class="com.jxnu.action.AddSystemMessage">
+			<result type="chain">ShowSystemMessage</result>
+			<result name="ERROR">/404.html</result>
+		</action>
+		<action name="DeleteSystemMessage" class="com.jxnu.action.DeleteSystemMessage">
+			<result type="chain">ShowSystemMessage</result>
+			<result name="ERROR">/404.html</result>
+		</action>
+		<action name="ShowSystemMessage" class="com.jxnu.action.ShowSystemMessage">
+			<result name="user">/UserMessage/User_message.jsp</result>
+			<result name="admin">/UserMessage/Admin_message.jsp</result>
+		</action>
+	</package>
+</struts>    
