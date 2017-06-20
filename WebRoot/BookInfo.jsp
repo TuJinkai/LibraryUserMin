@@ -259,7 +259,7 @@ String collectd = request.getAttribute("collectd").toString();
         	
         	<%
         	Connection conn = Connecting_To_Database.getConnection();
-        	String sqls = "select * from comments c,user u where c.User_Id = u.Id and c.Book_Id ='"+request.getParameter("book_id")+"'";
+        	String sqls = "select * from comments c,user u where c.User_Id = u.Id and c.Book_Id ='"+request.getParameter("book_id")+"' order by c.Comments_Id ";
         	Statement stmt = conn.createStatement();
         	ResultSet rs = stmt.executeQuery(sqls);
         	while(rs.next()){
